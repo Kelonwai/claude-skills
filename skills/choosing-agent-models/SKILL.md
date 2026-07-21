@@ -9,11 +9,11 @@ description: Use when dispatching subagents via the Agent tool, deciding whether
 
 Route by **task nature**, not task importance. Three tiers:
 
-- **Top tier** — strongest model available in your environment (e.g. fable, else opus): taste and judgment — design, critique, architecture decisions, adversarial verification, multi-agent synthesis
+- **Top tier** — strongest available (e.g. fable, else opus): taste and judgment — design, critique, architecture decisions, adversarial verification, multi-agent synthesis
 - **Mid tier** (e.g. sonnet): research, exploration, standard implementation, content drafting
-- **Small tier** (e.g. haiku): mechanical bulk — inventory, format conversion, bulk extraction/classification
+- **Small tier** (e.g. haiku): mechanical bulk — inventory, format conversion, bulk extraction/classification (heuristic: many similar items, no per-item judgment)
 
-Adjacent tiers are typically several-fold apart in cost. Routing an inventory sweep down a tier is free money; routing a design critique down a tier is where cheap models fail worst.
+Adjacent tiers differ several-fold in cost. Routing an inventory sweep down a tier is free money; routing a design critique down a tier is where cheap models fail worst.
 
 ## Quick Reference
 
@@ -31,7 +31,7 @@ Adjacent tiers are typically several-fold apart in cost. Routing an inventory sw
 
 ## When NOT to Override
 
-Only pass `model` when the task clearly fits a row above — a wrong override is worse than none; omitting inherits the session model. If it's a single quick lookup, don't dispatch an agent at all.
+Only pass `model` when the task clearly fits a row above — a wrong override is worse than none. A single quick lookup doesn't need an agent at all.
 
 ## Workflow Scripts
 
@@ -45,7 +45,7 @@ Instance: testing-with-synthetic-users runs its host top-tier, personas mid-tier
 
 ## Personalization
 
-Bind routing to agent types instead of re-deciding each time: define a custom agent in `~/.claude/agents/<name>.md` with `model:` pinned in its frontmatter (e.g. a `taste-designer` pinned top-tier for all design work). For recurring task types the table doesn't cover, fork this skill and add rows.
+Bind routing to agent types: define a custom agent in `~/.claude/agents/<name>.md` with `model:` pinned in its frontmatter (e.g. a `taste-designer` pinned top-tier). For recurring task types the table doesn't cover, fork this skill and add rows.
 
 ## Common Mistakes
 
@@ -53,6 +53,6 @@ Bind routing to agent types instead of re-deciding each time: define a custom ag
 |---|---|
 | "This research is complex, it needs the strongest model" | Complexity ≠ judgment. Research is mid tier; spend top tier verifying the findings instead |
 | Routing design/taste work down-tier "to save cost" | Taste degrades worst on cheap models — always top tier |
-| Paying top tier for grep sweeps or file inventories | Mechanical bulk is small tier |
+| Paying top or mid tier for sweeps, inventories, bulk extraction | Mechanical bulk is small tier — "mid tier to be safe" is the most common silent overspend |
 | Guessing model id strings | Use your platform's exact ids (Claude Code: lowercase `"sonnet"`, `"opus"`, `"haiku"`, `"fable"`) |
 | Overriding `model` on a custom agent that pins one | Its frontmatter already routes it — leave it alone |

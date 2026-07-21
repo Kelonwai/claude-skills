@@ -1,6 +1,6 @@
 ---
 name: testing-with-synthetic-users
-description: Use when a feature just shipped (or is about to ship) and you need to find real-user breakage and UX friction before users do — user asks to "test it like real users", wants pre-launch confidence on a user-facing flow, or a deployed feature has never been walked end-to-end on production/staging.
+description: Use when a feature just shipped (or is about to ship) and you need to find real-user breakage and UX friction before users do — user asks to "test it like real users", "synthetic user test" (合成測試/合成用戶測試), wants pre-launch confidence on a user-facing flow (web or native app), or a deployed feature has never been walked end-to-end on production/staging.
 ---
 
 # Testing with Synthetic Users
@@ -52,7 +52,7 @@ Plan a round **budget** upfront and log it (typical 5; small surfaces can plan 2
 - Personas use browser automation (Playwright / Chrome MCP) against the **real deployment** — never localhost when production/staging exists (localhost hides CDN, real data volume, auth, mobile networks).
 - If features need login, pre-provision a pool of throwaway test accounts (never real user credentials); note them in the report.
 - **Keep persona environments clean.** Host debugging must not leave residue (console errors, auth state, cookies) in a browser session personas share. When a finding looks unrelated to the feature under test, reproduce it in a fresh context before fixing — it may be test pollution, not a bug. Confirmed false positives go in the report as excluded, with the reason.
-- **No browser automation available?** Degrade to API/CLI walkthroughs of the same user journeys — you keep data/logic findings but lose layout/discoverability fidelity. Say so in the report. If there's no journey to walk at all, this skill doesn't apply.
+- **No browser automation available?** (Native iOS/Android apps with no driver, or a browserless environment.) Degrade the *transport*, never the *method*: walk the same user journeys through the production API the app calls — still personas, still rounds with rotation, still 🔴🟡🟢 triage and a report. A "15/15 checks passed" smoke list is not this skill. You keep data/logic/auth findings but lose layout/discoverability fidelity — say so in the report. If there's no journey to walk at all, this skill doesn't apply.
 
 ## Personas — Motivated Humans, Not QA Dimensions
 
@@ -111,3 +111,4 @@ Persist a report to `docs/` (or the project's doc dir) — findings that live on
 | Treating every persona report as a product bug | Shared-browser residue and known transients produce false positives. Reproduce fresh, then triage. |
 | Findings only in chat | No artifact → no backlog, no audit trail, learnings evaporate. |
 | Testing localhost | Misses CDN, real data volume, auth, mobile-network reality. |
+| Native app → API smoke checklist | Degraded transport still runs the full loop: rounds, rotation, triage, report. |
