@@ -67,4 +67,5 @@
 2. ~~測試污染~~ ✅ 已修（同上）
 3. ~~方法透明度入 template~~ ✅ 已修（同上）
 4. ~~中文 trigger keywords~~ ✅ 已修（2026-07-21，commit c0c4589）— root cause 未確認，但兩個候因（discovery miss / rationalization）都平價，一次過修埋
+   - **2026-08-22 追認：root cause 證實係 discovery miss，修法生效。** Transcript 掃描（`~/.claude/projects` 全 project）：7/13-14 iOS 嗰兩個 session **完全冇 invoke 個 skill**（transcript 零紀錄）；7/21 雙語 trigger deploy 之後，7/26 起錄得 7 個 session / 8 次 invocation，跨 5 個 project（pokecard ×4、EdgeML、nanoblock、fast-pass-driving）— skill 由單一項目擴散到成個 portfolio。
 5. ~~mobile-app degrade path~~ ✅ 已修（同上）— 「degrade transport, never the method」+ common mistakes 加 native-app row；GREEN：廣東話 iOS 情境 subagent 拒絕 15/15 checklist、出足 loop + report plan
