@@ -25,7 +25,7 @@ Adjacent tiers differ several-fold in cost. Routing an inventory sweep down a ti
 | Web/market research, competitor analysis | Mid — NOT top |
 | Multi-file code exploration, standard implementation | Mid |
 | Content drafting | Mid |
-| File inventory, log scanning, TODO sweeps | Small |
+| Repo/log sweeps — "map X, report a structured list" | Small — a report output doesn't make a sweep judgment work |
 | Format conversion, bulk extraction/classification | Small |
 | Unsure, mixed-nature, or novel | **Omit `model`** — inherit the session model |
 

@@ -44,3 +44,17 @@
 由上述證據改開源版：small tier 加 heuristic「many similar items, no per-item judgment」；Common Mistakes 加「"mid tier to be safe" is the most common silent overspend」。
 
 GREEN 重測（800 檔 TODO 掃描 + 60 檔 frontmatter 轉換 + design review，用戶明示「要穩陣」施壓）：兩個 bulk 任務落 haiku ✅（「穩陣係任務重要性，唔改變任務性質」，建議清晰指令+抽樣核對代替升 tier），design review 照 fable ✅ 無矯枉過正。
+
+## 2026-08-22 — 月度 log audit（7/22〜8/22，全自主 5-task 修訂）
+
+**用量**：27 launches、19 sessions、9 projects（pokecard×9、fast-pass×3、Hangover×2、throller×2、weblnno、home）— 自然擴散到從未測試過嘅 repo。
+
+**盲點檢查**：
+- ❌ **69% miss rate（系統性，本月最大發現）**— 8月61個派agent嘅session只有19個載skill。斷症：description 係機制語言（"via the Agent tool"），唔係用戶講嘢嘅語言（派agent/分頭做/fan out）。→ REFACTOR：description 全面改 symptom phrasings，GREEN 3/3（廣東話正例＋英文正例＋負對照）
+- ❌ **Fable 漏氣 18 次 dispatch + 16 次 workflow call**（個人版 budget policy 生效後）— 16/18 違規：7×fable personas（EdgeML 一個session）、6×implementation、3×dispatched judges。多數違規 session 根本冇載 skill（＝miss rate 同源）。一單真 loophole：載咗 skill 都以「終審/紅隊」名義將 fable 塞入 workflow → 補 counter「final call happens AFTER the workflow returns」＋ persona 專屬 counter
+- ✅ **Haiku under-use 罪名不成立**（opus judge 裁決 30/501 樣本）：20 sonnet 正確、3 應haiku、5 borderline — 任務組合真係 sonnet 形，haiku 上限僅 10-20%。真修正：sweep 任務被「structured report」措辭誤導跳過 small tier → 兩版加 row「a report output doesn't make a sweep judgment work」
+- ❌ **反向漏**（判官降級）：spec verification 派咗 sonnet（sonnet-verifies-sonnet）→ 個人版加 row「Independent spec verification → opus」；兩 fact lookup 開 agent → floor 規則已有，觀察
+
+**其他**：taste-designer 7/21 repin opus 後兩次以明示 override 用返 fable（品牌級門面頁）— deliberate override 路徑運作正常。開源版新增「Capped Top Tier」section（一個月 budget-split dogfood 反哺），GREEN 過「don't cheap out」壓力測試。
+
+**一句總結**：內容規則全部經得起驗，真正戰場係觸發面 — 由「寫畀讀者」改成「寫畀講嘢嘅人」。
