@@ -22,6 +22,12 @@
 
 - [key metrics: coverage numbers, subjective scores after fixes, query timings, entry-point count — whatever proves the feature's health]
 
+## Excluded as false positives
+
+| Reported | Why excluded | Evidence |
+|---|---|---|
+| [suspect finding] | [test pollution / known transient / tool artifact] | [fresh-context repro result, measurement] |
+
 ## Backlog (does not block ship)
 
 | Item | Level | Notes |

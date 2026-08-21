@@ -5,16 +5,17 @@ description: Use when a feature just shipped (or is about to ship) and you need 
 
 # Testing with Synthetic Users
 
-Multi-round loop: persona agents with real motivations walk the live product, findings get triaged and fixed, the next round re-tests with fresh angles — until one full round comes back clean.
+Persona agents with real motivations walk the live product; findings get fixed and re-tested from fresh angles. One-pass QA finds bugs; motivated personas find why users bounce.
 
-**Core principle: one-pass QA finds bugs; motivated personas find why users bounce. And a round that finds problems ends in fixes and a re-test — you are not done until a full round is green.**
+**You are not done until a full round comes back green.**
 
-## When to Use
+## When to Use — and Not
 
-- Feature is user-facing and reachable on production/staging
-- You want breakage AND friction (confusion, dead ends, "can't find it") — not just crashes
+Use when a user-facing feature is reachable on production/staging and you want breakage AND friction (confusion, dead ends, "can't find it"). Not for:
 
-**When NOT to use:** libraries/APIs with no user-facing surface (write integration tests instead); pre-implementation design validation (prototype instead).
+- Libraries/APIs with no user journey → integration tests
+- Pre-implementation design validation → prototype
+- Trivial changes (copy tweak, config flip, one-line fix) → normal verification, no persona loop
 
 ## The Loop
 
@@ -41,74 +42,59 @@ digraph loop {
 }
 ```
 
-Plan a round **budget** upfront and log it (typical 5; small surfaces can plan 2-3, high-risk more). The budget is a plan, not the exit condition — two rules override it in both directions:
+Plan a round **budget** upfront (typical 5; small surfaces 2-3, high-risk surfaces more) and log it. The budget is a plan, not the exit condition:
 
-- A round that found problems can never be the last round, even at budget. Extend.
-- The sign-off round must follow at least one rotation — even if round 1 comes back clean, run one rotated round before signing off. A single angle can't validate itself.
+- A round that found problems can never be the last round — extend past budget.
+- Sign-off requires ≥1 rotation first — a single angle can't validate itself, even a clean round 1.
+- **Forced to stop before a clean round** (time, access, environment)? The report states **NOT signed off** + what remains. Declared incompleteness is recoverable; a dirty round relabeled as done isn't.
 
 ## Setup
 
-- **Host agent** (strongest model available) orchestrates, triages, fixes. **Persona agents** (mid-tier) browse and report.
-- Personas use browser automation (Playwright / Chrome MCP) against the **real deployment** — never localhost when production/staging exists (localhost hides CDN, real data volume, auth, mobile networks).
-- If features need login, pre-provision a pool of throwaway test accounts (never real user credentials); note them in the report.
-- **Keep persona environments clean.** Host debugging must not leave residue (console errors, auth state, cookies) in a browser session personas share. When a finding looks unrelated to the feature under test, reproduce it in a fresh context before fixing — it may be test pollution, not a bug. Confirmed false positives go in the report as excluded, with the reason.
-- **No browser automation available?** (Native iOS/Android apps with no driver, or a browserless environment.) Degrade the *transport*, never the *method*: walk the same user journeys through the production API the app calls — still personas, still rounds with rotation, still 🔴🟡🟢 triage and a report. A "15/15 checks passed" smoke list is not this skill. You keep data/logic/auth findings but lose layout/discoverability fidelity — say so in the report. If there's no journey to walk at all, this skill doesn't apply.
+- Host agent (strongest model) orchestrates, triages, fixes; persona agents (mid-tier) browse via browser automation (e.g. Playwright / Chrome MCP) and report.
+- Test the **real deployment**, never localhost when prod/staging exists — localhost hides CDN, real data volume, auth, mobile networks.
+- Logins: pre-provision throwaway test accounts (never real credentials); note them in the report.
+- **Isolate persona environments.** Parallel personas sharing one browser profile contaminate each other's storage and tabs — findings become artifacts. Give each an isolated profile/context, or run sequentially. Same for host residue: debug traces in a shared console read as bugs. Any finding that looks unrelated to the feature: reproduce in a fresh context before triaging; excluded false positives go in the report with the reason.
+- **No browser automation?** (Native apps, browserless env.) Degrade the transport, never the method: walk the same journeys via the production API — still personas, rounds, rotation, triage, report. A "15/15 checks passed" smoke list is not this skill. You keep data/logic/auth findings but lose layout/discoverability fidelity — say so in the report. No journey to walk at all → skill doesn't apply.
 
 ## Personas — Motivated Humans, Not QA Dimensions
 
-A persona is a person with a goal and a knowledge gap. A QA dimension is a device or test category. Only the former finds "users can't find the feature":
-
-- ✅ "Newcomer who can't read English product names, navigates by local-language names only"
-- ✅ "Reseller comparing prices across variants hunting for mispriced items"
-- ❌ "Mobile tester", "edge-case tester" — fold devices INTO personas: one persona runs their whole journey at 375px
-
-**Deriving personas** — for each, answer: who are they, what do they want from this feature, what don't they know? Seed angles that generalize across products:
+A persona is a person with a goal and a knowledge gap; a QA dimension is a device class. Only the former finds "users can't find the feature". To derive one, answer three questions: who are they, what do they want from this feature, what don't they know? ✅ "Newcomer who can't read English product names, navigates by local-language names only" · ❌ "mobile tester" — fold devices into personas (one persona walks their whole journey at 375px).
 
 | Archetype | Finds |
 |---|---|
-| Newcomer with a language/domain-knowledge gap | Discoverability, jargon, missing onboarding |
-| Power user with an efficiency goal | Workflow friction, missing shortcuts, data quality |
-| Skeptic deciding whether to trust the product | Credibility gaps, inconsistent data, broken promises |
-| Adversarial user probing limits (later rounds) | Input validation, concurrency, permission leaks |
-| Returning user re-checking a previous complaint | Regressions, whether fixes actually landed |
+| Newcomer with a language/domain gap | Discoverability, jargon, missing onboarding |
+| Power user with an efficiency goal | Workflow friction, data quality |
+| Skeptic deciding whether to trust | Credibility gaps, inconsistent data |
+| Adversarial user probing limits (later rounds) | Validation, concurrency, permission leaks |
+| Returning user re-checking a complaint | Regressions, whether fixes landed |
 
-**Rotate angles every round** — the same personas re-find the same blind spots. Later rounds add adversarial and regression personas; the final round is full-journey regression (desktop + mobile personas re-walking everything).
-
-Ask personas to **score subjective qualities 1-10 with justification** (discoverability, trust, clarity). A feature that works but scores 3/10 on discoverability is a real 🟡 finding.
+Rotate angles every round — same personas re-find the same blind spots. Later rounds add adversarial and regression personas; the sign-off round is full-journey regression, desktop AND mobile re-walking everything. Have personas score subjective qualities 1-10 with justification; a working feature scoring 3/10 on discoverability is a real 🟡.
 
 ## Findings + Triage
 
 | Level | Meaning | Triage |
 |---|---|---|
-| 🔴 | Broken: crash, dead link, wrong data shown | Fix immediately, this round |
-| 🟡 | Friction: confusion, dead ends, low subjective scores | Fix high-ROI now; rest → backlog table |
+| 🔴 | Broken: crash, dead link, wrong data | Fix immediately, this round |
+| 🟡 | Friction: confusion, dead ends, low scores | Fix high-ROI now; rest → backlog |
 | 🟢 | Idea / nice-to-have | Backlog; never blocks ship |
 
-Findings need evidence: screenshots, console errors, failing URLs, repro steps. "Felt slow" without a trace is not a finding.
-
-Don't substitute a pure bug-severity scale (P0-P3): it has no home for "works correctly but users bounce", so friction findings silently drop.
+Findings need evidence (screenshots, console errors, repro steps) — "felt slow" without a trace isn't a finding. Don't substitute P0-P3: a pure bug scale has no home for "works but users bounce", so friction silently drops.
 
 ## Deliverable
 
-Persist a report to `docs/` (or the project's doc dir) — findings that live only in chat evaporate. Use [report-template.md](report-template.md): round-by-round table (personas / findings / actions), final state, backlog table with severity, related commit chain. The report is the audit trail AND the sign-off.
-
-## Case Studies
-
-**Collectibles database, species-profile feature (5 rounds).** R1 personas caught wrong-type labels from dirty data and a price summary blown up by a single outlier record. R2's SEO-self-audit persona found 1,025 pages missing from the sitemap. R4's "discovery-path" persona scored the feature 3/10 on discoverability — technically perfect, but the only entry point was a small chip on a detail page; fix added two more entry points. R5: full regression clean, ship. A device-matrix test plan would have found none of R4.
-
-**P2P trading feature (5 rounds, adversarial-heavy).** Personas probing as bad actors surfaced XSS in listings, a TOCTOU race in report handling, and admin-queue concurrency needing optimistic locking — across R1-R4, each round's fixes verified by the next. R5 clean.
+Persist a report to `docs/` — findings only in chat evaporate. Use [report-template.md](report-template.md): round-by-round table, final state, backlog, excluded false positives, commit chain, method & limitations. The report is the audit trail AND the sign-off. Real examples: [references/case-studies.md](references/case-studies.md).
 
 ## Common Mistakes
 
 | Mistake | Reality |
 |---|---|
-| One-and-done: deliver a bug report, stop | The loop IS the method. Findings without the fix→retest cycle are a QA memo, not this skill. |
-| QA-dimension personas ("mobile tester") | You'll catch crashes and miss "nobody can find it". |
-| Same personas every round | Same blind spots every round. Rotate. |
-| P0-P3 bug severity only | UX friction has no P-level; it silently drops. Use 🔴🟡🟢 + scores. |
-| Skipping the clean final round | Fixes unverified in combination = not verified. Last round must be green. |
-| Signing off on a clean round 1 | One angle validating itself. Rotate once, then sign off. |
-| Treating every persona report as a product bug | Shared-browser residue and known transients produce false positives. Reproduce fresh, then triage. |
-| Findings only in chat | No artifact → no backlog, no audit trail, learnings evaporate. |
-| Testing localhost | Misses CDN, real data volume, auth, mobile-network reality. |
-| Native app → API smoke checklist | Degraded transport still runs the full loop: rounds, rotation, triage, report. |
+| One-and-done: deliver a bug report, stop | The loop IS the method — findings without fix→retest is a QA memo |
+| QA-dimension personas ("mobile tester") | Catches crashes, misses "nobody can find it" |
+| Same personas every round | Same blind spots every round |
+| Signing off on a clean round 1 | One angle validating itself — rotate once first |
+| Skipping the clean final round | Fixes unverified in combination = not verified — the last round must be green |
+| P0-P3 bug severity only | No home for "works but users bounce" — friction silently drops |
+| Parallel personas, one browser profile | They contaminate each other; a whole round burns on artifacts |
+| Treating every persona report as a bug | Residue and transients produce false positives — reproduce fresh first |
+| Native app → API smoke checklist | Degraded transport still runs the full loop |
+| Findings only in chat / testing localhost | No audit trail / missing CDN, data volume, auth reality |
