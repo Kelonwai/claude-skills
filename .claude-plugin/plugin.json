@@ -1,0 +1,21 @@
+{
+  "name": "claude-skills",
+  "displayName": "Kelon's Agent Skills",
+  "description": "TDD-tested agent skills: synthetic-user testing loops, subagent model routing, and SKILL.md craft checks.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Kelon Wai",
+    "url": "https://github.com/Kelonwai"
+  },
+  "homepage": "https://github.com/Kelonwai/claude-skills",
+  "repository": "https://github.com/Kelonwai/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "agentic-workflow",
+    "synthetic-testing",
+    "subagents",
+    "model-routing",
+    "skill-authoring"
+  ]
+}

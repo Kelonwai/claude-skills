@@ -1,0 +1,15 @@
+# claude-skills
+
+> Three TDD-tested Claude Code agent skills — each written against a documented baseline failure, then dogfooded on production work. Install with `npx skills add Kelonwai/claude-skills` or `/plugin marketplace add Kelonwai/claude-skills`.
+
+## Skills
+
+- [testing-with-synthetic-users](https://raw.githubusercontent.com/Kelonwai/claude-skills/main/skills/testing-with-synthetic-users/SKILL.md): Multi-round persona-driven testing loop for a shipped feature — synthetic users with real motivations walk the live deployment, findings are triaged 🔴🟡🟢, fixed, and re-tested until a round comes back clean.
+- [choosing-agent-models](https://raw.githubusercontent.com/Kelonwai/claude-skills/main/skills/choosing-agent-models/SKILL.md): Model-tier routing policy for subagent dispatch — taste and judgment to the top tier, research and implementation to the mid tier, mechanical bulk to the small tier, and no override when in doubt.
+- [writing-good-skills](https://raw.githubusercontent.com/Kelonwai/claude-skills/main/skills/writing-good-skills/SKILL.md): Seven structural checks for SKILL.md quality — symptom-only trigger descriptions, rules that carry their why, observable artifacts, honest exits, a floor, one memorable line, and a lean body.
+
+## Method and receipts
+
+- [README](https://raw.githubusercontent.com/Kelonwai/claude-skills/main/README.md): Install instructions, a decision table for picking a skill, and the RED/GREEN/REFACTOR authoring loop every skill here passed.
+- [specs/](https://github.com/Kelonwai/claude-skills/tree/main/specs): The writing brief each skill was authored against.
+- [feedback/](https://github.com/Kelonwai/claude-skills/tree/main/feedback): Dogfood logs — real production runs, observed failure modes, and the REFACTOR commits they drove.
