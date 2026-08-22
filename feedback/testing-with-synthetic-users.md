@@ -67,16 +67,16 @@
 2. ~~測試污染~~ ✅ 已修（同上）
 3. ~~方法透明度入 template~~ ✅ 已修（同上）
 4. ~~中文 trigger keywords~~ ✅ 已修（2026-07-21，commit c0c4589）— root cause 未確認，但兩個候因（discovery miss / rationalization）都平價，一次過修埋
-   - **2026-08-22 追認：root cause 證實係 discovery miss，修法生效。** Transcript 掃描（`~/.claude/projects` 全 project）：7/13-14 iOS 嗰兩個 session **完全冇 invoke 個 skill**（transcript 零紀錄）；7/21 雙語 trigger deploy 之後，7/26 起錄得 7 個 session / 8 次 invocation，跨 5 個 project（pokecard ×4、EdgeML、nanoblock、fast-pass-driving）— skill 由單一項目擴散到成個 portfolio。
+   - **2026-08-22 追認：root cause 證實係 discovery miss，修法生效。** Transcript 掃描（`~/.claude/projects` 全 project）：7/13-14 iOS 嗰兩個 session **完全冇 invoke 個 skill**（transcript 零紀錄）；7/21 雙語 trigger deploy 之後，7/26 起錄得 7 個 session / 8 次 invocation，跨 5 個 project（pokecard ×4、一個足球數據項目、一個相片馬賽克 app、一個駕駛學校網站）— skill 由單一項目擴散到成個 portfolio。
 5. ~~mobile-app degrade path~~ ✅ 已修（同上）— 「degrade transport, never the method」+ common mistakes 加 native-app row；GREEN：廣東話 iOS 情境 subagent 拒絕 15/15 checklist、出足 loop + report plan
 
 ## 2026-08-22 — writing-good-skills 七項 check 大修（v1.2）
 
-四個 project 嘅新 report（nanoblock 7 輪污染案例、fast-pass 2 輪）+ writing-good-skills 七項 check 做依據：
+四個 project 嘅新 report（相片馬賽克 app 7 輪污染案例、駕駛學校網站 2 輪）+ writing-good-skills 七項 check 做依據：
 
 **改咗**：
 1. 瘦身 1,182→~900 字（case studies → `references/case-studies.md`，四個真實 run 抽象化）
-2. 平行 persona 隔離 rule（RED：nanoblock R1 三個 persona 共用 profile 燒咗成輪）
+2. 平行 persona 隔離 rule（RED：相片馬賽克 app R1 三個 persona 共用 profile 燒咗成輪）
 3. Honest exit：「被迫早停 → report 寫 NOT signed off + 剩乜」
 4. Trivial floor：copy tweak / config flip 唔入 loop
 5. 單一 aphorism：「You are not done until a full round comes back green.」
