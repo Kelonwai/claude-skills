@@ -1,0 +1,26 @@
+---
+layout: default
+---
+<article class="post">
+  <div class="wrap wrap-read">
+
+    <div class="post-head">
+      <p class="eyebrow">
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y.%m.%d" }}</time>
+        {% if page.kicker %}<span class="eyebrow-sep">&mdash;</span>{{ page.kicker }}{% endif %}
+      </p>
+      <h1>{{ page.title }}</h1>
+      {% if page.standfirst %}<p class="standfirst">{{ page.standfirst }}</p>{% endif %}
+    </div>
+
+    <div class="prose">
+      {{ content }}
+    </div>
+
+    <div class="post-foot">
+      <p class="eyebrow">End of entry</p>
+      <p><a class="backlink" href="{{ '/' | relative_url }}">&larr; All entries</a></p>
+    </div>
+
+  </div>
+</article>

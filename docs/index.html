@@ -1,0 +1,95 @@
+---
+layout: default
+---
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Notes on building Claude Code skills</p>
+    <h1>Skills that watched an agent <em>fail</em> first.</h1>
+    <p class="hero-lede">
+      A Claude Code skill is a folder holding a <code>SKILL.md</code> that the agent loads by
+      itself when your request matches it &mdash; standing instructions for a recurring task, not a
+      prompt you paste each time. This repo gives you three, and every one of them was
+      TDD-tested against baseline agent behaviour before release: <strong>it exists because
+      agents demonstrably get it wrong without it.</strong> The dogfood logs that drove each
+      edit are in the repo, unedited.
+    </p>
+
+    <div class="install">
+      <span class="install-label">Install</span>
+      <code>npx skills add Kelonwai/claude-skills</code>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Entries</p></div>
+    <ul class="entries">
+      {% for post in site.posts %}
+      <li class="entry">
+        <a href="{{ post.url | relative_url }}">
+          <p class="eyebrow"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time></p>
+          <div>
+            <h2 class="entry-title">{{ post.title }}</h2>
+            {% if post.standfirst %}<p class="entry-dek">{{ post.standfirst }}</p>{% endif %}
+            <p class="entry-read">Read entry &rarr;</p>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">The three skills</p></div>
+    <ul class="skills">
+      <li class="skill">
+        <p class="skill-name">
+          <span class="skill-star">&#9733;</span>
+          <a href="{{ site.repo }}/tree/main/skills/testing-with-synthetic-users">testing-with-synthetic-users</a>
+        </p>
+        <p>
+          Synthetic users with real motivations walk your live deployment round after round;
+          findings get triaged, fixed, redeployed and re-tested from fresh angles until a full
+          round comes back clean. A loop with an exit condition, not a QA checklist.
+        </p>
+      </li>
+      <li class="skill">
+        <p class="skill-name">
+          <span class="skill-star">&#9733;</span>
+          <a href="{{ site.repo }}/tree/main/skills/choosing-agent-models">choosing-agent-models</a>
+        </p>
+        <p>
+          Routes each subagent you dispatch by the <em>nature</em> of its task &mdash; taste and
+          judgment to the top tier, research and implementation to the mid tier, mechanical bulk
+          to the small tier, and when in doubt no override at all.
+        </p>
+      </li>
+      <li class="skill">
+        <p class="skill-name">
+          <span class="skill-star skill-star--none" aria-hidden="true">&#9733;</span>
+          <a href="{{ site.repo }}/tree/main/skills/writing-good-skills">writing-good-skills</a>
+        </p>
+        <p>
+          Seven structural checks for a <code>SKILL.md</code>, distilled from baseline-testing
+          agents who wrote skills naturally and failed three of them the same way every time.
+        </p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="method">
+  <div class="wrap">
+    <div class="section-head"><p class="eyebrow">Method</p></div>
+    <ol class="method-steps">
+      <li><b>Red</b><span>Run the scenario on an agent <em>without</em> the skill; document exactly how it fails.</span></li>
+      <li><b>Green</b><span>Write the skill against those specific failures; verify the agent now complies.</span></li>
+      <li><b>Refactor</b><span>Dogfood on real work; close the rationalization loopholes agents find.</span></li>
+    </ol>
+    <p class="aphorism">If a skill never watched an agent fail, it&rsquo;s documentation, not a skill.</p>
+  </div>
+</section>

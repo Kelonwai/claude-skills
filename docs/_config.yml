@@ -1,0 +1,25 @@
+title: claude-skills
+tagline: TDD-tested Claude Code skills, plus the receipts.
+description: >-
+  Three Claude Code skills, each written against a documented agent failure —
+  and the dogfood logs that drove every edit.
+url: https://kelonwai.github.io
+baseurl: /claude-skills
+repo: https://github.com/Kelonwai/claude-skills
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+permalink: /:year/:month/:day/:title/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md

@@ -1,45 +1,19 @@
 {
   "name": "kelonwai-skills",
-  "description": "Agent skills distilled from real production workflows, TDD-tested against baseline agent behavior.",
   "owner": {
     "name": "Kelon Wai",
     "url": "https://github.com/Kelonwai"
   },
+  "description": "Kelon's Claude Code skills: synthetic user testing, agent model routing, and skill writing",
   "plugins": [
     {
       "name": "claude-skills",
       "source": "./",
-      "displayName": "Kelon's Agent Skills",
-      "description": "Three TDD-tested skills: testing-with-synthetic-users (multi-round persona testing of shipped features), choosing-agent-models (route subagent dispatches to the right model tier), and writing-good-skills (structural checks for SKILL.md quality).",
-      "version": "1.1.0",
-      "author": {
-        "name": "Kelon Wai",
-        "url": "https://github.com/Kelonwai"
-      },
-      "homepage": "https://github.com/Kelonwai/claude-skills",
+      "description": "Three TDD-tested skills: testing-with-synthetic-users, choosing-agent-models, writing-good-skills",
+      "author": { "name": "Kelon Wai" },
       "repository": "https://github.com/Kelonwai/claude-skills",
       "license": "MIT",
-      "category": "productivity",
-      "keywords": [
-        "skills",
-        "agentic-workflow",
-        "synthetic-testing",
-        "subagents",
-        "model-routing",
-        "skill-authoring"
-      ],
-      "tags": [
-        "skills",
-        "testing",
-        "subagents",
-        "model-routing",
-        "skill-authoring"
-      ],
-      "skills": [
-        "./skills/testing-with-synthetic-users",
-        "./skills/choosing-agent-models",
-        "./skills/writing-good-skills"
-      ]
+      "keywords": ["skills", "testing", "agents", "model-routing"]
     }
   ]
 }

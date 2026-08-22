@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
+<meta name="description" content="{% if page.excerpt_text %}{{ page.excerpt_text }}{% else %}{{ site.description }}{% endif %}">
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23100f0d'/><path d='M3 8.5l3 3 7-7' stroke='%23e2542f' stroke-width='2' fill='none'/></svg>">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <a class="wordmark" href="{{ '/' | relative_url }}">
+      <span class="wordmark-slash">/</span>claude-skills
+    </a>
+    <nav class="masthead-nav">
+      <a href="{{ site.repo }}">repo</a>
+      <a href="{{ site.repo }}/tree/main/feedback">feedback/</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+{{ content }}
+</main>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div class="colophon-grid">
+      <div class="colophon-lede">
+        <h2>About</h2>
+        <p>
+          Written and maintained by <a href="https://github.com/Kelonwai">Kelon</a>, a technical
+          director in Hong Kong who ships client work with agents every day. Every skill in this
+          repo was tested against baseline agent behaviour before release: watch it fail, write
+          against the failure, then keep the dogfood log in the open.
+        </p>
+        <p class="colophon-quote">If a skill never watched an agent fail, it&rsquo;s documentation.</p>
+      </div>
+      <dl class="colophon-meta">
+        <dt>Install</dt>
+        <dd><code>npx skills add Kelonwai/claude-skills</code></dd>
+        <dt>Source</dt>
+        <dd><a href="{{ site.repo }}">github.com/Kelonwai/claude-skills</a></dd>
+        <dt>Receipts</dt>
+        <dd><a href="{{ site.repo }}/tree/main/feedback">feedback/</a> &middot; <a href="{{ site.repo }}/tree/main/specs">specs/</a></dd>
+        <dt>Licence</dt>
+        <dd>MIT</dd>
+      </dl>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
